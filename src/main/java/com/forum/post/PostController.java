@@ -116,10 +116,11 @@ public class PostController
 
     @PreAuthorize("@commentService.getCommentByPostAndIndex(#postId, #index)?.owner?.username == authentication.principal.username or hasAuthority('ADMIN')")
     @PutMapping("/{postId}/comments/{index}")
-    public ResponseEntity<Comment> updateComment(@RequestBody Comment updatedComment, @PathVariable UUID postId, @PathVariable int index) {
+    public ResponseEntity<Comment> updateComment(@RequestBody CommentDTO updatedComment, @PathVariable UUID postId, @PathVariable int index) {
         try {
-            updatedComment.setCommentId(new CommentId(updatedComment.getPost().getPostId(), index));
-            return new ResponseEntity<>(commentService.updateComment(updatedComment), HttpStatus.OK);
+            Comment comment = commentService.getCommentByPostAndIndex(updatedComment.getPostId(), updatedComment.getIndex());
+            comment.setContent(updatedComment.getContent());
+            return new ResponseEntity<>(commentService.updateComment(comment), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
