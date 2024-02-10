@@ -59,6 +59,17 @@ public class PostController
         }
     }
 
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @GetMapping("/categories")
+    public ResponseEntity<List<Post>> getAllPosts(@RequestBody PostDTO post) {
+        try {
+            return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
     @PreAuthorize("@postRepository.findById(#postId).orElse(null)?.owner?.username == authentication.principal.username or hasAuthority('ADMIN')")
     @DeleteMapping("/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable UUID postId) {

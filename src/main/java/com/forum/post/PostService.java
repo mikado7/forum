@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-;import java.util.UUID;
+;import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PostService {
@@ -31,6 +32,10 @@ public class PostService {
 
     public Post getPostByPostId(UUID postId) {
         return postRepository.getPostByPostId(postId);
+    }
+
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
     }
 }
 
