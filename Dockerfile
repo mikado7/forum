@@ -1,7 +1,8 @@
 FROM openjdk:17
-ARG JAR_FILE=targer/*.jar
-COPY forum.main.jar app.jar
+WORKDIR /app
+COPY forum-0.0.1-SNAPSHOT.jar /app
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+CMD ["java", "-jar", "forum-0.0.1-SNAPSHOT.jar"]
 
 
